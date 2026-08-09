@@ -51,17 +51,27 @@ def gen_vid(filename):
     # don't recognize at all. Per the concat demuxer docs, the duration of
     # the LAST file is ignored unless that file is listed again afterward -
     # hence the repeated final line (no duration needed on it).
-    image_paths_file = os.path.join(os.getcwd(), 'scripts', 'image_paths.txt')
+    # Use absolute path for the concat file to avoid working directory issues
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    image_paths_file = os.path.join(scripts_dir, 'image_paths.txt')
+    # Use absolute path for the chat folder and normalize it
+    input_folder_abs = os.path.normpath(os.path.join(scripts_dir, '..', 'chat'))
+    
     with open(image_paths_file, 'w', encoding="utf8", newline="\n") as file:
         file.write("ffconcat version 1.0\n")
-        for image_file, dur in zip(image_files, durations):
-            file.write(f"file '{input_folder}{image_file}'\n")
-            file.write(f"duration {float(dur.strip())}\n")
-        file.write(f"file '{input_folder}{image_files[-1]}'\n")
+        for i, (image_file, dur) in enumerate(zip(image_files, durations)):
+            image_path = os.path.normpath(os.path.join(input_folder_abs, image_file))
+            file.write(f"file '{image_path}'\n")
+            # Don't write duration for the last image (it will be repeated)
+            if i < len(image_files) - 1:
+                file.write(f"duration {float(dur.strip())}\n")
+        # Repeat the last file so its duration is honored
+        last_image_path = os.path.normpath(os.path.join(input_folder_abs, image_files[-1]))
+        file.write(f"file '{last_image_path}'\n")
 
     video_width, video_height = 1280, 720
     ffmpeg_cmd = (
-        f"ffmpeg -y -f concat -safe 0 -i scripts/image_paths.txt -vcodec libx264 -r 25 -crf 25 "
+        f"ffmpeg -y -f concat -safe 0 -i \"{image_paths_file}\" -vcodec libx264 -r 25 -crf 25 "
         f"-vf \"scale={video_width}:{video_height}:force_original_aspect_ratio=decrease,"
         f"pad={video_width}:{video_height}:(ow-iw)/2:(oh-ih)/2\" -pix_fmt yuv420p output.mp4"
     )
