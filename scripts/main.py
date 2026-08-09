@@ -18,6 +18,25 @@ except ImportError:
         return text.upper()
 
 
+from pathlib import Path
+# ... other imports ...
+# Define absolute paths based on this script's location
+SCRIPT_DIR = Path(__file__).parent.resolve()
+BASE_DIR = SCRIPT_DIR.parent.resolve()
+
+ASSETS_DIR = BASE_DIR / "assets"
+FONTS_DIR = ASSETS_DIR / "fonts"
+SOUNDS_DIR = ASSETS_DIR / "sounds"
+CHAT_DIR = BASE_DIR / "chat"
+OUTPUT_FILE = BASE_DIR / "output.mp4"
+
+
+
+
+
+
+
+
 # Safe wrapper around addstr that never lets curses crash the program.
 # Curses raises curses.error if you write past the edge of the screen or
 # into the bottom-right cell, so every write must be clipped and guarded.

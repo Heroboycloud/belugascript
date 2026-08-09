@@ -6,7 +6,7 @@ root= Path(__file__).parent.parent
 
 def add_sounds(filename):
     # Load the video file
-    video = VideoFileClip("output.mp4")
+    video = VideoFileClip(os.path.join(os.getcwd(), "output.mp4"))
     duration = 0
     audio_clips = []
 
@@ -22,7 +22,7 @@ def add_sounds(filename):
                 if "#!" in line:
                     parts = line.split('$^')
                     duration_part, sound_part = parts[1].split("#!")
-                    audio_file = os.path.join(root,f'assets/sounds/mp3/{sound_part.strip()}.mp3')
+                    audio_file = os.path.join(os.getcwd(),f'assets/sounds/mp3/{sound_part.strip()}.mp3')
                     audio_clip = AudioFileClip(audio_file).set_start(duration)
                     audio_clips.append(audio_clip)
                     duration += float(duration_part)
@@ -48,5 +48,5 @@ def add_sounds(filename):
     else:
         pass
 
-    video.write_videofile("final_video.mp4", codec="libx264", audio_codec="aac")
-    os.remove("output.mp4")
+    video.write_videofile(os.path.join(os.getcwd(),"final_video.mp4"), codec="libx264", audio_codec="aac")
+    

@@ -3,7 +3,8 @@ from sound_effects import add_sounds
 
 
 def gen_vid(filename):
-    input_folder = '../chat/'
+    #input_folder at parent folder/assets/chat
+    input_folder = os.path.join(os.getcwd(),'chat')
     image_files = sorted([f for f in os.listdir(input_folder) if f.endswith('.png')])
 
     # Read the per-message durations (in seconds) from the script file.

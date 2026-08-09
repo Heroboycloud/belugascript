@@ -56,18 +56,17 @@ MESSAGE_POSITIONS = [(MESSAGE_X, MESSAGE_Y_INIT + i * MESSAGE_DY) for i in range
 
 # Load fonts
 font = "whitney" # Change this according to the font you want to use
-root= Path(__file__).parent.parent
-name_font = ImageFont.truetype(os.path.join(root,'assets/fonts/','semibold.ttf'), NAME_FONT_SIZE)
-time_font = ImageFont.truetype(os.path.join(root,'assets/fonts/', 'semibold.ttf'), TIME_FONT_SIZE)
-message_font = ImageFont.truetype(os.path.join(root,'assets/fonts/', 'medium.ttf'), MESSAGE_FONT_SIZE)
-message_italic_font = ImageFont.truetype(os.path.join(root,'assets/fonts/', 'medium_italic.ttf'), MESSAGE_FONT_SIZE)
-message_bold_font = ImageFont.truetype(os.path.join(root,'assets/fonts/', 'bold.ttf'), MESSAGE_FONT_SIZE)
-message_italic_bold_font = ImageFont.truetype(os.path.join(root,'assets/fonts/', 'bold_italic.ttf'), MESSAGE_FONT_SIZE)
-message_mention_font = ImageFont.truetype(os.path.join(root,'assets/fonts/', 'semibold.ttf'), MESSAGE_FONT_SIZE)
-message_mention_italic_font = ImageFont.truetype(os.path.join(root,'assets/fonts/', 'semibold_italic.ttf'), MESSAGE_FONT_SIZE)
+name_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/','semibold.ttf'), NAME_FONT_SIZE)
+time_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'semibold.ttf'), TIME_FONT_SIZE)
+message_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'medium.ttf'), MESSAGE_FONT_SIZE)
+message_italic_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'medium_italic.ttf'), MESSAGE_FONT_SIZE)
+message_bold_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'bold.ttf'), MESSAGE_FONT_SIZE)
+message_italic_bold_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'bold_italic.ttf'), MESSAGE_FONT_SIZE)
+message_mention_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'semibold.ttf'), MESSAGE_FONT_SIZE)
+message_mention_italic_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'semibold_italic.ttf'), MESSAGE_FONT_SIZE)
 
 # Load profile picture dictionary
-with open('assets/profile_pictures/characters.json', encoding="utf8") as file:
+with open(os.path.join(os.getcwd(),'assets/profile_pictures/characters.json'), encoding="utf8") as file:
     characters_dict = json.load(file)
 
 
@@ -262,7 +261,8 @@ def get_filename():
 
 
 def save_images(lines, init_time, dt=30):
-    os.makedirs('../chat', exist_ok=True)
+    chat_path= os.path.join(os.getcwd(),"chats")
+    os.makedirs(chat_path, exist_ok=True)
 
     name_up_next = True
     current_time = init_time
@@ -306,34 +306,13 @@ def save_images(lines, init_time, dt=30):
         image = generate_chat(
             messages=current_lines,
             name_time=name_time,
-            profpic_file=os.path.join('assets/profile_pictures', characters_dict[current_name]["profile_pic"]),
+            profpic_file=os.path.join(os.getcwd(),'assets/profile_pictures', characters_dict[current_name]["profile_pic"]),
             color=characters_dict[current_name]["role_color"]
         )
-        image.save(f'../chat/{msg_number:03d}.png')
+        image.save(os.path.join(os.getcwd(),f'/chat/{msg_number:03d}.png'))
         current_time += datetime.timedelta(seconds=dt)
         msg_number += 1
 
 
 if __name__ == '__main__':
-    """
-    final_video = '../final_video.mp4'
-    if os.path.isfile(final_video):
-        os.remove(final_video)
-    if os.path.exists('../chat'):
-        for file in os.listdir('../chat'):
-            os.remove(os.path.join('../chat', file))
-        os.rmdir('../chat')
-
-    filename = get_filename()
-    with open(filename, encoding="utf8") as f:
-        lines = f.read().splitlines()
-
-    current_time = datetime.datetime.now()
-    save_images(lines, init_time=current_time)
-
-    # The following function is imported from compile_images.py
-    from compile_images import gen_vid
-    gen_vid(filename)
-    """
-    
     print('Please run the main.py script!')
