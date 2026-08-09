@@ -331,5 +331,4 @@ def main():
 
 
 if __name__ == '__main__':
-    os.system(f"python {os.path.join(os.getcwd(),'gen_vid.py')}")
     main()
