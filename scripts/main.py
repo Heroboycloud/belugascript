@@ -22,6 +22,8 @@ from pathlib import Path
 # ... other imports ...
 # Define absolute paths based on this script's location
 SCRIPT_DIR = Path(__file__).parent.resolve()
+my_folder="C:/Users/Debugger/Desktop/codes/Text-2-Beluga"
+
 BASE_DIR = SCRIPT_DIR.parent.resolve()
 
 ASSETS_DIR = BASE_DIR / "assets"
@@ -131,13 +133,13 @@ def run_generate_chat(stdscr):
     draw_screen(stdscr, "Text 2 Beluga", "Select a chat script file...\n\n", menu_items=[])
     curses.napms(500)
     
-    final_video = '../final_video.mp4'
+    final_video = os.path.join(my_folder,'final_video.mp4')
     if os.path.isfile(final_video):
         os.remove(final_video)
-    if os.path.exists('../chat'):
-        for file in os.listdir('../chat'):
-            os.remove(os.path.join('../chat', file))
-        os.rmdir('../chat')
+    if os.path.exists(os.path.join(my_folder,'chat')):
+        for file in os.listdir(os.path.join(my_folder,'chat')):
+            os.remove(os.path.join(my_folder,'chat', file))
+        os.rmdir(os.path.join(my_folder,'chat'))
 
     filename = get_chat_filename()
     if not filename:
@@ -270,10 +272,10 @@ def sounds(stdscr, current_row, left_margin):
     description = "> Use the arrow keys to navigate through the available sound effects. Press [ENTER] to listen to the selected sound effect."
     
     menu_items = []
-    for file in os.listdir(os.path.join("..", "assets", "sounds", "mp3")):
+    for file in os.listdir(os.path.join(my_folder, "assets", "sounds", "mp3")):
         if file.endswith(".mp3"):
             menu_items.append(file.replace(".mp3", ""))
-    menu_items.append("                     ")
+    menu_items.append("< ignore")
     menu_items.append("< Back")
     
     while True:
@@ -290,7 +292,7 @@ def sounds(stdscr, current_row, left_margin):
             elif current_row == (len(menu_items) - 2):
                 continue
             else:
-                playsound(f'{os.path.join("..", "assets", "sounds", "mp3", menu_items[current_row] + ".mp3")}')
+                playsound(f'{os.path.join(my_folder, "assets", "sounds", "mp3", menu_items[current_row] + ".mp3")}')
 
 ################################################
 ################################################

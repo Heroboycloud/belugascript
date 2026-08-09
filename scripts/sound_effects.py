@@ -3,10 +3,11 @@ from pathlib import Path
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
 
 root= Path(__file__).parent.parent
+my_folder="C:/Users/Debugger/Desktop/codes/Text-2-Beluga"
 
 def add_sounds(filename):
     # Load the video file
-    video = VideoFileClip(os.path.join(os.getcwd(), "output.mp4"))
+    video = VideoFileClip(str(my_folder+"/output.mp4"))
     duration = 0
     audio_clips = []
 
@@ -22,7 +23,7 @@ def add_sounds(filename):
                 if "#!" in line:
                     parts = line.split('$^')
                     duration_part, sound_part = parts[1].split("#!")
-                    audio_file = os.path.join(os.getcwd(),f'assets/sounds/mp3/{sound_part.strip()}.mp3')
+                    audio_file =str(my_folder+'/assets/sounds/mp3/{sound_part.strip()}.mp3')
                     audio_clip = AudioFileClip(audio_file).set_start(duration)
                     audio_clips.append(audio_clip)
                     duration += float(duration_part)
@@ -35,7 +36,7 @@ def add_sounds(filename):
                 if "#!" in line:
                     parts = line.split('$^')
                     duration_part, sound_part = parts[1].split("#!")
-                    audio_file = os.path.join(root,f'assets/sounds/mp3/{sound_part.strip()}.mp3')
+                    audio_file = str(my_folder + f'/assets/sounds/mp3/{sound_part.strip()}.mp3')
                     audio_clip = AudioFileClip(audio_file).set_start(duration)
                     audio_clips.append(audio_clip)
                     duration += float(duration_part)
@@ -48,5 +49,5 @@ def add_sounds(filename):
     else:
         pass
 
-    video.write_videofile(os.path.join(os.getcwd(),"final_video.mp4"), codec="libx264", audio_codec="aac")
+    video.write_videofile(os.path.join(my_folder,"final_video.mp4"), codec="libx264", audio_codec="aac")
     

@@ -65,7 +65,7 @@ def validate_script_lines(lines):
                         dur_str = dur_str.strip()
                         sound_name = sound_marker.strip()
                         # Check that the sound effect file exists.
-                        sound_path = os.path.join("..", "assets", "sounds", "mp3", f"{sound_name}.mp3")
+                        sound_path = os.path.join(os.getcwd(), "assets", "sounds", "mp3", f"{sound_name}.mp3")
                         if not os.path.isfile(sound_path):
                             errors.append(f"Line {idx}: Sound effect '{sound_name}' does not exist at expected location: {sound_path}")
                     else:

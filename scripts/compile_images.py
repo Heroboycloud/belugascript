@@ -2,9 +2,10 @@ import os
 from sound_effects import add_sounds
 
 
+my_folder="C:/Users/Debugger/Desktop/codes/Text-2-Beluga"
 def gen_vid(filename):
     #input_folder at parent folder/assets/chat
-    input_folder = os.path.join(os.getcwd(),'chat')
+    input_folder = str(my_folder+'/chats')
     image_files = sorted([f for f in os.listdir(input_folder) if f.endswith('.png')])
 
     # Read the per-message durations (in seconds) from the script file.
@@ -56,7 +57,7 @@ def gen_vid(filename):
     scripts_dir = os.path.dirname(os.path.abspath(__file__))
     image_paths_file = os.path.join(scripts_dir, 'image_paths.txt')
     # Use absolute path for the chat folder and normalize it
-    input_folder_abs = os.path.normpath(os.path.join(scripts_dir, '..', 'chat'))
+    input_folder_abs = os.path.normpath(os.path.join(scripts_dir, 'chat'))
     
     with open(image_paths_file, 'w', encoding="utf8", newline="\n") as file:
         file.write("ffconcat version 1.0\n")

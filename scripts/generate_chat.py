@@ -17,6 +17,9 @@ WORLD_Y_INIT_MESSAGE = 231
 WORLD_DY = 70
 WORLD_HEIGHTS_MESSAGE = [WORLD_Y_INIT_MESSAGE + i * WORLD_DY for i in range(5)]  # Max 5 messages
 WORLD_COLOR = (54, 57, 63, 255)
+my_folder="C:/Users/Debugger/Desktop/codes/Text-2-Beluga/"
+print(os.getcwd())
+
 
 WORLD_HEIGHT_JOINED = 100
 JOINED_FONT_SIZE = 45
@@ -56,17 +59,17 @@ MESSAGE_POSITIONS = [(MESSAGE_X, MESSAGE_Y_INIT + i * MESSAGE_DY) for i in range
 
 # Load fonts
 font = "whitney" # Change this according to the font you want to use
-name_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/','semibold.ttf'), NAME_FONT_SIZE)
-time_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'semibold.ttf'), TIME_FONT_SIZE)
-message_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'medium.ttf'), MESSAGE_FONT_SIZE)
-message_italic_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'medium_italic.ttf'), MESSAGE_FONT_SIZE)
-message_bold_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'bold.ttf'), MESSAGE_FONT_SIZE)
-message_italic_bold_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'bold_italic.ttf'), MESSAGE_FONT_SIZE)
-message_mention_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'semibold.ttf'), MESSAGE_FONT_SIZE)
-message_mention_italic_font = ImageFont.truetype(os.path.join(os.getcwd(),'assets/fonts/', 'semibold_italic.ttf'), MESSAGE_FONT_SIZE)
+name_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+'semibold.ttf'), NAME_FONT_SIZE)
+time_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+ 'semibold.ttf'), TIME_FONT_SIZE)
+message_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+ 'medium.ttf'), MESSAGE_FONT_SIZE)
+message_italic_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+ 'medium_italic.ttf'), MESSAGE_FONT_SIZE)
+message_bold_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+ 'bold.ttf'), MESSAGE_FONT_SIZE)
+message_italic_bold_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+ 'bold_italic.ttf'), MESSAGE_FONT_SIZE)
+message_mention_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+ 'semibold.ttf'), MESSAGE_FONT_SIZE)
+message_mention_italic_font = ImageFont.truetype(str(my_folder+'/assets/fonts/'+ 'semibold_italic.ttf'), MESSAGE_FONT_SIZE)
 
 # Load profile picture dictionary
-with open(os.path.join(os.getcwd(),'assets/profile_pictures/characters.json'), encoding="utf8") as file:
+with open(str(my_folder +'/assets/profile_pictures/characters.json'), encoding="utf8") as file:
     characters_dict = json.load(file)
 
 
@@ -261,7 +264,7 @@ def get_filename():
 
 
 def save_images(lines, init_time, dt=30):
-    chat_path= os.path.join(os.getcwd(),"chats")
+    chat_path= my_folder+ "/chats"
     os.makedirs(chat_path, exist_ok=True)
 
     name_up_next = True
@@ -288,7 +291,7 @@ def save_images(lines, init_time, dt=30):
             joined_messages[line] = [random.choice(JOINED_TEXTS), random.randint(50, 80), current_time]
             hour = current_time.hour % 12 or 12
             image = generate_joined_message_stack(joined_messages, hour)
-            image.save(f'../chat/{msg_number:03d}.png')
+            image.save(my_folder + f'chats/{msg_number:03d}.png')
             current_time += datetime.timedelta(seconds=dt)
             msg_number += 1
             continue
@@ -306,10 +309,10 @@ def save_images(lines, init_time, dt=30):
         image = generate_chat(
             messages=current_lines,
             name_time=name_time,
-            profpic_file=os.path.join(os.getcwd(),'assets/profile_pictures', characters_dict[current_name]["profile_pic"]),
+            profpic_file=my_folder + 'assets/profile_pictures/'+ characters_dict[current_name]["profile_pic"],
             color=characters_dict[current_name]["role_color"]
         )
-        image.save(os.path.join(os.getcwd(),f'/chat/{msg_number:03d}.png'))
+        image.save(my_folder +f'/chats/{msg_number:03d}.png')
         current_time += datetime.timedelta(seconds=dt)
         msg_number += 1
 
